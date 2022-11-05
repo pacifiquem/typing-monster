@@ -4,6 +4,7 @@
   "description": "An online typing game",
   "main": "server.js",
   "scripts": {
+    "build":"npm install",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
