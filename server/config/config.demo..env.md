@@ -1,0 +1,10 @@
+PORT = 
+NODE_ENV = 
+secretKey = 
+cookieEpire = 
+offlineUrl = 
+onlineUrl =
+Mailport= 
+user= 
+pass= 
+myEmail=
