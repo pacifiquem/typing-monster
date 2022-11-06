@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
 // config the .env file
-dotenv.config = ({path: '../config/config.env'});
+dotenv.config();
 
 const userModel = mongoose.Schema({
 

@@ -6,12 +6,11 @@ const { userModel } = require('../models/userModel.model');
 const dotenv = require('dotenv');
 
 // config the .env file
-dotenv.config = ({path: '../config/config.env'});
+dotenv.config();
 
 exports.protect = asyncHandler (async (req, res, next) => {
 
     const token = req.cookies.token;
-    console.log(token);
     if(!token) {
 
         req.error = new ErrorResponse('you\'re not Authorized to get this route', 401);

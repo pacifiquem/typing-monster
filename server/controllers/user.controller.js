@@ -13,7 +13,7 @@ const sendTokenResponse = require('../utils/sendTokenResponse.utils');
 
 
 //config dotenv file
-dotenv.config = ({path: '../config/config.env'});
+dotenv.config();
 
 
 // @desc            controller for getting all users from db

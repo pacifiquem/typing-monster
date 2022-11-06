@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const dotenv = require('dotenv');
 const colors = require('colors');
+dotenv.config();
 
-dotenv.config = ({path : './config.env'});
 const url = process.env.DB_URL;
 
 const dbconnection = async() =>{

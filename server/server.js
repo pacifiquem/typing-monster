@@ -1,6 +1,6 @@
 // packages
 const express = require('express');
-const dotenv = require('dotenv').config({path: './config/config.env'});
+const dotenv = require('dotenv').config({path: './.env'});
 const colors = require('colors');
 const express_mongo_sanitize = require('express-mongo-sanitize');
 const cookieParser = require('cookie-parser');
@@ -8,7 +8,6 @@ const helmet = require('helmet');
 
 // routes handlers
 const user = require('./router/user.router');
-const shoes = require('./router/shoes.router');
 
 //config
 const dbconnection = require('./config/db.config');
@@ -30,7 +29,6 @@ app.use(cookieParser())
 dbconnection()
 
 app.use('/v1/users', user);
-app.use('/v1/shoes', shoes);
 app.use(errorHandler);
 
 app.listen(port,()=> {
