@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 dotenv.config();
 
-const url = process.env.DB_URL;
+const url =  process.env.onlineUrl || process.env.offlineUrl;
 
 const dbconnection = async() =>{
     try {
@@ -12,10 +12,11 @@ const dbconnection = async() =>{
             UseUnifiedTopology: true
          });
         if(conn) {
-         console.log(`database connected successfully`.magenta.bgBlack);
+         console.log(`database connected on ${url} successfully`.magenta.bgBlack);
         }
     } catch (error) {
-        console.log(error);
+        console.log(`there was error : ${error}`);
+        process.exit(1);
     }
 };
 
