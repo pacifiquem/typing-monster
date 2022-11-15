@@ -1,6 +1,6 @@
 // packages
 const express = require('express');
-const dotenv = require('dotenv').config({path: './.env'});
+const dotenv = require('dotenv').config();
 const colors = require('colors');
 const express_mongo_sanitize = require('express-mongo-sanitize');
 const cookieParser = require('cookie-parser');
