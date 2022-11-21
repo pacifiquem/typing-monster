@@ -5,6 +5,7 @@ const colors = require('colors');
 const express_mongo_sanitize = require('express-mongo-sanitize');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const cors = require('cors');
 
 // routes handlers
 const user = require('./router/user.router');
@@ -16,13 +17,14 @@ const dbconnection = require('./config/db.config');
 const errorHandler = require('./middleware/errorHandler.middleware');
 const {protect} = require('./middleware/auth.middleware');
 
+// utils
+const corsOptions = require('./utils/corsOptions.utils');
 
-
-let port = process.env.PORT;
+let port = process.env.PORT || 1000;
 
 const app = express();
-
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(express_mongo_sanitize());
 app.use(helmet());
 app.use(cookieParser())
