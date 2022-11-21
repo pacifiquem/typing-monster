@@ -29,8 +29,8 @@ const userModel = mongoose.Schema({
     },
     address: {
         type: {
-            country : String,
-            city : String
+            province : String,
+            district : String
         },
         required: true
     },
@@ -45,7 +45,11 @@ const userModel = mongoose.Schema({
         type: String,
         required: true,
         min: 6,
-        maxLength: 10
+        maxLength: 100
+    },
+    profilePicturePath: {
+        type: String,
+        unique: true
     },
     createdAt: {
         type: Date,
@@ -55,6 +59,7 @@ const userModel = mongoose.Schema({
     resetPasswordExpire: Date
 });
 
+//password hasher 
 userModel.pre('save',async function() {
 
     const salt = await bcrypt.genSalt(10);

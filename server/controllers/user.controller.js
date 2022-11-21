@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const asyncHandler = require('../middleware/asyncHandler.middleware');
 const errorHandler = require('../middleware/errorHandler.middleware');
 const ErrorResponse = require('../utils/errorResponse.utils');
-const express = require('express');
 const cookieParser = require('cookie-parser')
 const sendEmail = require('../utils/sendEmails.utils');
 const jwt = require('jsonwebtoken');
@@ -201,6 +200,37 @@ exports.deleteUserbyId = asyncHandler(async (req, res, next) => {
         }
 });
 
+//@desc             controller for uploading profile picture
+//@access           private
+//@url             localhost:2300/v1/users/:id/uploadProfilePicture
+
+exports.uploadProfilePicture = asyncHandler(async (req, res, next) => {
+    const user = await userModel.findById(req.params.id);
+    if(user) {
+        if(req.files !== null) {
+
+            user.profilePicturePath = req.file.filename;
+            await user.save();
+
+            res.status(200).json({
+                success: true,
+                image: req.file.filename,
+            });
+            
+        }else {
+            res.status(401).json({
+                success: false,
+                message: 'File can\'t be empty'
+            });
+        }
+    }else {
+        res.status(400).json({
+            success: false,
+            message: 'User not found',
+        });
+    }
+});
+
 
 //@desc               controller for gettings logged in user
 //@access             private
@@ -248,7 +278,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
     const resetToken = user.getResetPasswordToken();
 
-    console.log(user.resetPasswordToken);
     if(!resetToken) {
         req.error = new ErrorResponse(`invalid credentials`, 401);
         next(errorHandler);
