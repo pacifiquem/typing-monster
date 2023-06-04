@@ -15,6 +15,9 @@ var scoreElement = document.getElementById("score");
 var startButton = document.getElementById("start-btn");
 var timerElement = document.getElementById("timer");
 
+// Start button click event listener
+startButton.addEventListener("click", startGame);
+
 function startGame() {
     // Reset game state
     currentIndex = 0;
