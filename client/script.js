@@ -28,12 +28,33 @@ function startGame() {
     startTime = new Date();
 
     // Show the first sentence
-    sentenceElement.textContent = sentences[currentIndex];
+    updateSentence();
 
     // Enable input field and listen for keyup events
     userInput.disabled = false;
     userInput.focus();
     userInput.addEventListener("keyup", checkInput);
+}
+
+function updateSentence() {
+    // Display the current sentence with the current word highlighted
+    var currentSentence = sentences[currentIndex];
+    var words = currentSentence.split(" ");
+    var highlightedSentence = "";
+
+    for (var i = 0; i < words.length; i++) {
+        if (i === currentIndex) {
+            highlightedSentence += '<span class="current-word">' + words[i] + '</span>';
+        } else {
+            highlightedSentence += words[i];
+        }
+
+        if (i < words.length - 1) {
+            highlightedSentence += " ";
+        }
+    }
+
+    sentenceElement.innerHTML = highlightedSentence;
 }
 
 function checkInput() {
@@ -42,19 +63,20 @@ function checkInput() {
 
     if (typedText === currentSentence) {
         // User typed the sentence correctly
-        score++;
-        scoreElement.textContent = "Score: " + score;
-
         // Move to the next sentence
         currentIndex++;
 
         if (currentIndex >= sentences.length) {
-            // Game is over, calculate time
+            // Game is over, calculate words per minute (WPM)
             endTime = new Date();
             var elapsedTime = Math.floor((endTime - startTime) / 1000);
             var minutes = Math.floor(elapsedTime / 60);
             var seconds = elapsedTime % 60;
-            timerElement.textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            var totalMinutes = minutes + seconds / 60;
+            var wpm = Math.round(score / totalMinutes);
+
+            // Display the WPM
+            timerElement.textContent = "WPM: " + wpm;
 
             // Disable input field and remove event listener
             userInput.disabled = true;
@@ -64,8 +86,10 @@ function checkInput() {
             startButton.disabled = false;
         } else {
             // Display the next sentence
-            sentenceElement.textContent = sentences[currentIndex];
+            updateSentence();
             userInput.value = "";
+            score++;
+            scoreElement.textContent = "Score: " + score;
         }
     } else {
         // Highlight incorrect characters
@@ -90,4 +114,16 @@ function checkInput() {
             sentenceElement.innerHTML += '<span class="correct">' + currentSentence.substring(sentenceChars.length) + '</span>';
         }
     }
+
+    // Update the current word indicator
+    var currentWordElement = sentenceElement.querySelector(".current-word");
+    if (currentWordElement) {
+        currentWordElement.classList.add("current");
+    }
+    var previousWordElement = sentenceElement.querySelector(".current-word.previous");
+    if (previousWordElement) {
+        previousWordElement.classList.remove("current");
+        previousWordElement.classList.remove("previous");
+    }
 }
+
